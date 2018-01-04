@@ -17,6 +17,7 @@ defmodule MicropostWeb.Router do
     pipe_through :browser # Use the default browser stack
 
     get "/", StaticPageController, :home
+    get "/signup", UserController, :new
     get "/help", StaticPageController, :help
     get "/about", StaticPageController, :about
     get "/contact", StaticPageController, :contact

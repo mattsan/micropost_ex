@@ -11,7 +11,7 @@
     で書き直したサンプルページのホームです。
   </p>
 
-  <a href="#" class="btn btn-large btn-primary">Sign up now!</a>
+  <a href="<%= user_path(@conn, :new) %>" class="btn btn-large btn-primary">Sign up now!</a>
 </div>
 
 <a href="http://phoenixframework.org">
