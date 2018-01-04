@@ -2,18 +2,18 @@ defmodule MicropostWeb.StaticPageController do
   use MicropostWeb, :controller
 
   def home(conn, _) do
-    render(conn, "home.html", page_title: nil) # TODO page_title を view に移動する（他の action も同様）
+    render(conn, "home.html")
   end
 
   def help(conn, _) do
-    render(conn, "help.html", page_title: 'Help')
+    render(conn, "help.html")
   end
 
   def about(conn, _) do
-    render(conn, "about.html", page_title: 'About Us')
+    render(conn, "about.html")
   end
 
   def contact(conn, _) do
-    render(conn, "contact.html", page_title: 'Contact')
+    render(conn, "contact.html")
   end
 end
