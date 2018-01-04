@@ -1,0 +1,10 @@
+<h1>About Us</h1>
+<p>
+  これは
+  <a href="http://railstutorial.org/">Ruby on Rails Tutorial</a>
+  を
+  <a href="https://elixir-lang.org">Elixir</a>
+  /
+  <a href="http://phoenixframework.org">Phoenix Framework</a>
+  で書き直したアプリケーションです。
+</p>

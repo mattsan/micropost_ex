@@ -1,0 +1,10 @@
+<h1>Help</h1>
+<p>
+  Ruby on Rails Tutorial のヘルプは
+  <a href="http://railstutorial.jp/help">Rails Tutorial help Page</a>
+  へ。
+
+  Phoenix framework のヘルプは
+  <a href="https://hexdocs.pm/phoenix/overview.html">Phoenix</a>
+  へ。
+</p>
