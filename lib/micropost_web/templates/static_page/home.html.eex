@@ -1,11 +1,19 @@
-<h1>Sample App</h1>
+<div class="center jumbotron">
+  <h1>Sample App</h1>
 
-<p>
-  ここは
-  <a href="http://railstutorial.jp">Ruby on Rails Tutorial</a>
-  を
-  <a href="https://elixir-lang.org">Elixir</a>
-  /
-  <a href="http://phoenixframework.org">Phoenix Framework</a>
-  で書き直したサンプルページのホームです。
-</p>
+  <p>
+    ここは
+    <a href="http://railstutorial.jp">Ruby on Rails Tutorial</a>
+    を
+    <a href="https://elixir-lang.org">Elixir</a>
+    /
+    <a href="http://phoenixframework.org">Phoenix Framework</a>
+    で書き直したサンプルページのホームです。
+  </p>
+
+  <a href="#" class="btn btn-large btn-primary">Sign up now!</a>
+</div>
+
+<a href="http://phoenixframework.org">
+<img src="https://raw.githubusercontent.com/phoenixframework/phoenix/master/logo.png">
+</a>

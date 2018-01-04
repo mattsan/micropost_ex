@@ -16,10 +16,10 @@ defmodule MicropostWeb.Router do
   scope "/", MicropostWeb do
     pipe_through :browser # Use the default browser stack
 
-    get "/", PageController, :index
-    get "/home", StaticPageController, :home
+    get "/", StaticPageController, :home
     get "/help", StaticPageController, :help
     get "/about", StaticPageController, :about
+    get "/contact", StaticPageController, :contact
   end
 
   # Other scopes may use custom stacks.
