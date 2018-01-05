@@ -21,6 +21,8 @@ defmodule MicropostWeb.Router do
     get "/help", StaticPageController, :help
     get "/about", StaticPageController, :about
     get "/contact", StaticPageController, :contact
+
+    resources "/users", UserController
   end
 
   # Other scopes may use custom stacks.

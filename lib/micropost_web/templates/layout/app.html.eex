@@ -7,7 +7,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title><%= full_title(@view_module, @view_template) %></title>
+    <title><%= full_title(@conn, @view_module, @view_template) %></title>
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
   </head>
 
