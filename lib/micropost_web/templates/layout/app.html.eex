@@ -19,7 +19,10 @@
         <%= render @view_module, @view_template, assigns %>
       </main>
       <%= render "footer.html", conn: @conn %>
-    </div>
+      <%= if Mix.env == :dev do %>
+        <hr />
+        <tt><%= inspect(@conn, limit: :infinity) %></tt>
+      <% end %>
     <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
   </body>
 </html>
