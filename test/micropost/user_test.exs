@@ -21,24 +21,24 @@ defmodule Micropost.UserTest do
 
     test "when name is not present" do
       changeset = User.changeset(@user, %{name: " "})
-      assert changeset.valid? == false
+      refute changeset.valid?
     end
 
     test "when email is not present" do
       changeset = User.changeset(@user, %{email: " "})
-      assert changeset.valid? == false
+      refute changeset.valid?
     end
 
     test "when naem is too long" do
       changeset = User.changeset(@user, %{name: String.duplicate("a", 51)})
-      assert changeset.valid? == false
+      refute changeset.valid?
     end
 
     test "when email format is invalid" do
       ~w(user@foo,com user_at_foo.org example.user@foo.foo@bar_baz.com foo@bar+baz.com)
       |> Enum.each(fn invalid_address ->
         changeset = User.changeset(@user, %{email: invalid_address})
-        assert changeset.valid? == false
+        refute changeset.valid?
       end)
     end
 
@@ -56,24 +56,24 @@ defmodule Micropost.UserTest do
 
     test "when email address is already taken" do
       changeset = User.changeset(@user, %{name: "Example User Jr.", email: String.upcase(@email)})
-      assert changeset.valid? == false
+      refute changeset.valid?
     end
   end
 
   describe "password" do
     test "when password is not present" do
       changeset = User.changeset(@user, %{password: " "})
-      assert changeset.valid? == false
+      refute changeset.valid?
     end
 
     test "when password is too short" do
       changeset = User.changeset(@user, %{password: String.duplicate("a", 5)})
-      assert changeset.valid? == false
+      refute changeset.valid?
     end
 
     test "when password confirmation is not present" do
       changeset = User.changeset(@user, %{password_confirmation: " "})
-      assert changeset.valid? == false
+      refute changeset.valid?
     end
   end
 
@@ -85,7 +85,7 @@ defmodule Micropost.UserTest do
     end
 
     test "when invalid passowrd", context do
-      assert User.authenticated?(context[:user], "invalid") == false
+      refute User.authenticated?(context[:user], "invalid")
     end
   end
 end

@@ -4,7 +4,7 @@ use Mix.Config
 # you can enable the server option below.
 config :micropost, MicropostWeb.Endpoint,
   http: [port: 4001],
-  server: false
+  server: true
 
 # Print only warnings and errors during test
 config :logger, level: :warn
@@ -19,3 +19,4 @@ config :micropost, Micropost.Repo,
   pool: Ecto.Adapters.SQL.Sandbox
 
 config :bcrypt_elixir, :log_rounds, 4
+config :hound, driver: "phantomjs"

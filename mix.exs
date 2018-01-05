@@ -41,7 +41,8 @@ defmodule Micropost.Mixfile do
       {:phoenix_live_reload, "~> 1.0", only: :dev},
       {:gettext, "~> 0.11"},
       {:cowboy, "~> 1.0"},
-      {:bcrypt_elixir, "~> 1.0"}
+      {:bcrypt_elixir, "~> 1.0"},
+      {:hound, "~> 1.0", only: :test}
     ]
   end
 

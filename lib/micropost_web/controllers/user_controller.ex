@@ -9,6 +9,30 @@ defmodule MicropostWeb.UserController do
   end
 
   def new(conn, _) do
-    render(conn, "new.html")
+    changeset = User.changeset(%User{}, %{})
+    render(conn, "new.html", changeset: changeset)
+  end
+
+  def create(conn, %{"user" => user_params}) do
+    changeset = User.changeset(%User{}, user_params)
+    case Repo.insert(changeset) do
+      {:ok, user} ->
+        conn
+        |> put_flash(:success, "Welcome to the Sample App!")
+        |> redirect(to: user_path(conn, :show, user))
+      {:error, %Ecto.Changeset{} = changeset} ->
+        conn
+        |> put_flash(:error, error_message(changeset))
+        |> render("new.html", changeset: changeset)
+    end
+  end
+
+  defp error_message(%{errors: errors} = _changeset) do
+    count = Enum.count(errors)
+    case count do
+      0 -> ""
+      1 -> "An error has occurred"
+      _ -> "#{count} errors have occurred"
+    end
   end
 end
