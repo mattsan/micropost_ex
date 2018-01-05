@@ -3,9 +3,9 @@
     <div class="container-fluid">
       <a id="logo">sample app</a>
       <nav class="pull-right">
-        <a href="<%= static_page_path(@conn, :home) %>" class="nav-link">Home</a>
-        <a href="<%= static_page_path(@conn, :help) %>" class="nav-link">Help</a>
-        <a href="#" class="nav-link">Sign in</a>
+        <%= link("Home", to: static_page_path(@conn, :home), class: "nav-link") %>
+        <%= link("Help", to: static_page_path(@conn, :help), class: "nav-link") %>
+        <%= link("Sign in", to: "#", class: "nav-link") %>
       </nav>
     </div>
   </div>

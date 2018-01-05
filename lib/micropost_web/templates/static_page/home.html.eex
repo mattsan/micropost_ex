@@ -3,17 +3,15 @@
 
   <p>
     ここは
-    <a href="http://railstutorial.jp">Ruby on Rails Tutorial</a>
+    <%= link("Ruby on Rails Tutorial", to: "http://railstutorial.jp") %>
     を
-    <a href="https://elixir-lang.org">Elixir</a>
+    <%= link("Elixir", to: "https://elixir-lang.org") %>
     /
-    <a href="http://phoenixframework.org">Phoenix Framework</a>
+    <%= link("Phoenix Framework", to: "http://phoenixframework.org") %>
     で書き直したサンプルページのホームです。
   </p>
 
-  <a href="<%= user_path(@conn, :new) %>" class="btn btn-large btn-primary">Sign up now!</a>
+  <%= link("Sign up now!", to: user_path(@conn, :new), class: "btn btn-large btn-primary") %>
 </div>
 
-<a href="http://phoenixframework.org">
-<img src="https://raw.githubusercontent.com/phoenixframework/phoenix/master/logo.png">
-</a>
+<%= link(img_tag("https://raw.githubusercontent.com/phoenixframework/phoenix/master/logo.png"), to: "http://phoenixframework.org") %>

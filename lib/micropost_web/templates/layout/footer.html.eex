@@ -1,10 +1,10 @@
 <footer class="footer">
   <small>
-    <a href="http://phoenixframework.org">Phoenix Framework</a>
+    <%= link("Phoenix Framework", to: "http://phoenixframework.org") %>
   </small>
   <nav>
-    <a href="<%= static_page_path(@conn, :about) %>" class="nav-link">About</a>
-    <a href="<%= static_page_path(@conn, :contact) %>"class="nav-link">Contact</a>
-    <a href="#" class="nav-link">News</a>
+    <%= link("About", to: static_page_path(@conn, :about), class: "nav-link") %>
+    <%= link("Contact", to: static_page_path(@conn, :contact), class: "nav-link") %>
+    <%= link("News", to: "#", class: "nav-link") %>
   </nav>
 </footer>
