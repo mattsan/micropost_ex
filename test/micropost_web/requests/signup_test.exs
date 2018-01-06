@@ -1,4 +1,4 @@
-defmodule MicropostWeb.UserViewTest do
+defmodule MicropostWeb.SignupTest do
   use MicropostWeb.ConnCase
   use Hound.Helpers
 
@@ -26,6 +26,7 @@ defmodule MicropostWeb.UserViewTest do
       |> click()
 
       assert page_title() =~ "Sign up"
+      assert inner_text(find_element(:tag, "body")) =~ "error"
     end
   end
 
@@ -42,6 +43,15 @@ defmodule MicropostWeb.UserViewTest do
       after_count = Repo.aggregate(User, :count, :id)
 
       assert (after_count - before_count) == 1
+    end
+
+    test "should have title with user name" do
+      fill_signup_field()
+      find_element(:xpath, "//button")
+      |> click()
+
+      assert page_title() =~ "Example User"
+      assert inner_text(find_element(:class, "alert-success")) =~ "Welcome"
     end
   end
 end
