@@ -1,6 +1,5 @@
 defmodule MicropostWeb.UserControllerTest do
   use MicropostWeb.ConnCase
-  use Hound.Helpers
 
   alias Micropost.{Repo, User}
 
@@ -12,8 +11,6 @@ defmodule MicropostWeb.UserControllerTest do
     password: "foobar",
     password_confirmation: "foobar"
   }
-
-  hound_session()
 
   def get_signup(%{conn: conn} = _content) do
     response = conn
@@ -58,31 +55,5 @@ defmodule MicropostWeb.UserControllerTest do
     test "should have a name in title", %{user: user, response: response} do
       assert response =~ "#{user.name}</title>"
     end
-  end
-
-  describe "signup with invalid infomation" do
-    setup context do
-      navigate_to(user_path(context[:conn], :new))
-      :ok
-    end
-
-    test "should not create a user" do
-      before_count = Repo.aggregate(User, :count, :id)
-
-      fill_field({:name, "user[name]"}, "Example User")
-      fill_field({:name, "user[email]"}, "user@example.com")
-      fill_field({:name, "user[password]"}, "foobar")
-      fill_field({:name, "user[password_confirmation]"}, "foobar")
-
-      find_element(:xpath, "//button")
-      |> click()
-
-      after_count = Repo.aggregate(User, :count, :id)
-
-      assert (after_count - before_count) == 1
-    end
-  end
-
-  describe "signup with valid infomation" do
   end
 end
