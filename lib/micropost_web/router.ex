@@ -18,11 +18,14 @@ defmodule MicropostWeb.Router do
 
     get "/", StaticPageController, :home
     get "/signup", UserController, :new
+    get "/signin", SessionController, :new
+    delete "/signout", SessionController, :delete
     get "/help", StaticPageController, :help
     get "/about", StaticPageController, :about
     get "/contact", StaticPageController, :contact
 
-    resources "/users", UserController
+    resources "/users", UserController, except: [:new]
+    resources "/sessions", SessionController, only: [:create]
   end
 
   # Other scopes may use custom stacks.

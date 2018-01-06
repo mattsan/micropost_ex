@@ -5,7 +5,14 @@
       <nav class="pull-right">
         <%= link("Home", to: static_page_path(@conn, :home), class: "nav-link") %>
         <%= link("Help", to: static_page_path(@conn, :help), class: "nav-link") %>
-        <%= link("Sign in", to: "#", class: "nav-link") %>
+        <%= if sign_in?(@conn) do %>
+          <%= link("Users", to: user_path(@conn, :index), class: "nav-link") %>
+          <%= link("Profile", to: user_path(@conn, :show, current_user(@conn)), class: "nav-link") %>
+          <%= link("Settings", to: user_path(@conn, :edit, current_user(@conn)), class: "nav-link") %>
+          <%= link("Sign out", to: session_path(@conn, :delete), method: :delete, class: "nav-link") %>
+        <% else %>
+          <%= link("Sign in", to: session_path(@conn, :new), class: "nav-link") %>
+        <% end %>
       </nav>
     </div>
   </div>

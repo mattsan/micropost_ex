@@ -7,6 +7,15 @@ defmodule MicropostWeb.LayoutView do
     full_title(conn, view_module, function_exported?(view_module, :page_title, 1))
   end
 
+  def current_user(conn) do
+    email = Plug.Conn.get_session(conn, :remember_token)
+    email && Micropost.Repo.get_by(Micropost.User, email: email)
+  end
+
+  def sign_in?(conn) do
+    !!current_user(conn)
+  end
+
   defp full_title(conn, view_module, true), do: full_title(view_module.page_title(conn))
   defp full_title(_, _, false), do: @base_title
 
