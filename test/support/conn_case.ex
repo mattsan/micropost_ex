@@ -20,9 +20,17 @@ defmodule MicropostWeb.ConnCase do
       # Import conveniences for testing with connections
       use Phoenix.ConnTest
       import MicropostWeb.Router.Helpers
+      import MicropostWeb.ConnCase
 
       # The default endpoint for testing
       @endpoint MicropostWeb.Endpoint
+
+      def visit(%{conn: conn, path: path}) do
+        response = conn
+          |> get(path)
+          |> html_response(200)
+        [response: response]
+      end
     end
   end
 
@@ -34,5 +42,4 @@ defmodule MicropostWeb.ConnCase do
     end
     {:ok, conn: Phoenix.ConnTest.build_conn()}
   end
-
 end

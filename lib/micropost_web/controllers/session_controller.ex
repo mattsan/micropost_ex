@@ -10,6 +10,7 @@ defmodule MicropostWeb.SessionController do
 
   def create(conn, %{"user" => user_params}) do
     user = Repo.get_by(User, email: user_params["email"])
+
     if user && User.authenticated?(user, user_params["password"]) do
       conn
       |> put_session(:remember_token, user.email)
@@ -18,7 +19,7 @@ defmodule MicropostWeb.SessionController do
     else
       changeset = User.changeset(%User{}, user_params)
       conn
-      |> put_flash(:error, "Invalid")
+      |> put_flash(:error, "Invalid email/password combination")
       |> render("new.html", changeset: changeset)
     end
   end

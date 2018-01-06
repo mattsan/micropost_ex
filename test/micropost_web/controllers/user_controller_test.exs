@@ -1,8 +1,6 @@
 defmodule MicropostWeb.UserControllerTest do
   use MicropostWeb.ConnCase
 
-  alias Micropost.{Repo, User}
-
   import MicropostWeb.Router.Helpers
 
   @attributes %{
@@ -12,29 +10,16 @@ defmodule MicropostWeb.UserControllerTest do
     password_confirmation: "foobar"
   }
 
-  def get_signup(%{conn: conn} = _content) do
-    response = conn
-      |> get(user_path(conn, :new))
-      |> html_response(200)
-    [response: response]
-  end
-
-  def get_profile(%{conn: conn, user: user} = _content) do
-    response = conn
-      |> get(user_path(conn, :show, user.id))
-      |> html_response(200)
-    [response: response]
-  end
-
   def create_user(_context) do
-    user = %User{}
-      |> User.changeset(@attributes)
-      |> Repo.insert!()
+    user = %Micropost.User{}
+      |> Micropost.User.changeset(@attributes)
+      |> Micropost.Repo.insert!()
     [user: user]
   end
 
   describe "signup page" do
-    setup :get_signup
+    setup %{conn: conn}, do: [path: user_path(conn, :new)]
+    setup :visit
 
     test "should have content 'Sign up'", %{response: response} do
       assert response =~ "Sign up"
@@ -46,7 +31,9 @@ defmodule MicropostWeb.UserControllerTest do
   end
 
   describe "profile page" do
-    setup [:create_user, :get_profile]
+    setup :create_user
+    setup %{conn: conn, user: user}, do: [path: user_path(conn, :show, user)]
+    setup :visit
 
     test "should have a name in content", %{user: user, response: response} do
       assert response =~ user.name
