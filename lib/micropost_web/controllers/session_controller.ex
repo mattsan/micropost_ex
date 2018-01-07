@@ -1,7 +1,7 @@
 defmodule MicropostWeb.SessionController do
   use MicropostWeb, :controller
 
-  alias Micropost.{Repo, User}
+  alias Micropost.User
 
   def new(conn, _params) do
     changeset = User.changeset(%User{}, %{})
@@ -9,7 +9,7 @@ defmodule MicropostWeb.SessionController do
   end
 
   def create(conn, %{"user" => user_params}) do
-    user = Repo.get_by(User, email: user_params["email"])
+    user = User.get_by(email: user_params["email"])
 
     if user && User.authenticated?(user, user_params["password"]) do
       conn

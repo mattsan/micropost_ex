@@ -1,10 +1,10 @@
 defmodule MicropostWeb.UserController do
   use MicropostWeb, :controller
 
-  alias Micropost.{Repo, User}
+  alias Micropost.User
 
   def show(conn, %{"id" => id}) do
-    user = Repo.get!(User, id)
+    user = User.get!(id)
     render(conn, "show.html", user: user)
   end
 
@@ -16,7 +16,7 @@ defmodule MicropostWeb.UserController do
   def create(conn, %{"user" => user_params}) do
     changeset = User.changeset(%User{}, user_params)
 
-    case Repo.insert(changeset) do
+    case User.insert(changeset) do
       {:ok, user} ->
         conn
         |> put_flash(:success, "Welcome to the Sample App!")

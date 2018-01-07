@@ -17,6 +17,11 @@ defmodule Micropost.User do
     timestamps()
   end
 
+  def get!(id), do: Repo.get!(User, id)
+  def insert(%Ecto.Changeset{} = changeset), do: Repo.insert(changeset)
+  def update(%Ecto.Changeset{} = changeset), do: Repo.update(changeset)
+  def get_by(clauses, opts \\ []), do: Repo.get_by(User, clauses, opts)
+
   @doc false
   def changeset(%User{} = user, attrs) do
     user
