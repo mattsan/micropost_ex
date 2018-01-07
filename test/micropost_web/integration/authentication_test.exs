@@ -2,7 +2,7 @@ defmodule MicropostWeb.AuthenticationTest do
   use MicropostWeb.ConnCase
   use Hound.Helpers
 
-  alias Micropost.{Repo, User}
+  alias Micropost.User
 
   @name "Example User"
   @email "user@example.com"
@@ -12,7 +12,7 @@ defmodule MicropostWeb.AuthenticationTest do
   hound_session()
 
   defp create_user(_context) do
-    user = Repo.insert!(User.changeset(%User{}, @user_params))
+    {:ok, user} = User.insert(User.changeset(%User{}, @user_params))
 
     [user: user]
   end

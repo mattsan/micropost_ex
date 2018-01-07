@@ -3,7 +3,7 @@ defmodule Micropost.User do
   import Ecto.Changeset
   import Bcrypt.Base
   import Bcrypt
-  alias Micropost.User
+  alias Micropost.{Repo, User}
 
   @valid_email_regex ~r/\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
 
@@ -20,7 +20,10 @@ defmodule Micropost.User do
   def get!(id), do: Repo.get!(User, id)
   def insert(%Ecto.Changeset{} = changeset), do: Repo.insert(changeset)
   def update(%Ecto.Changeset{} = changeset), do: Repo.update(changeset)
+
   def get_by(clauses, opts \\ []), do: Repo.get_by(User, clauses, opts)
+
+  def count, do: Repo.aggregate(User, :count, :id)
 
   @doc false
   def changeset(%User{} = user, attrs) do
