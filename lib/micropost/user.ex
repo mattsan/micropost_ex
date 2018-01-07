@@ -6,6 +6,7 @@ defmodule Micropost.User do
   alias Micropost.{Repo, User}
 
   @valid_email_regex ~r/\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
+  @token_length 20
 
   schema "users" do
     field :email, :string
@@ -13,12 +14,25 @@ defmodule Micropost.User do
     field :password_digest, :string
     field :password, :string, virtual: true
     field :password_confirmation, :string, virtual: true
+    field :remember_token, :string
 
     timestamps()
   end
 
   def get!(id), do: Repo.get!(User, id)
-  def insert(%Ecto.Changeset{} = changeset), do: Repo.insert(changeset)
+
+  def insert(%Ecto.Changeset{} = changeset) do
+    changeset
+    |> put_change(:remember_token, create_rememer_token())
+    |> Repo.insert()
+  end
+
+  def update_token(%Ecto.Changeset{} = changeset) do
+    changeset
+    |> put_change(:remember_token, create_rememer_token())
+    |> Repo.update()
+  end
+
   def update(%Ecto.Changeset{} = changeset), do: Repo.update(changeset)
 
   def get_by(clauses, opts \\ []), do: Repo.get_by(User, clauses, opts)
@@ -43,11 +57,15 @@ defmodule Micropost.User do
     verify_pass(password, user.password_digest)
   end
 
-  defp digest_password(changeset), do: digest_password(changeset, get_change(changeset, :password))
-  defp digest_password(changeset, nil), do: changeset
-  defp digest_password(changeset, password), do: put_change(changeset, :password_digest, digest(password))
-
   def digest(phrase) do
     hash_password(phrase, gen_salt())
   end
+
+  defp create_rememer_token do
+    :base64.encode(:crypto.strong_rand_bytes(@token_length))
+  end
+
+  defp digest_password(changeset), do: digest_password(changeset, get_change(changeset, :password))
+  defp digest_password(changeset, nil), do: changeset
+  defp digest_password(changeset, password), do: put_change(changeset, :password_digest, digest(password))
 end

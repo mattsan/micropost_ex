@@ -43,4 +43,22 @@ defmodule MicropostWeb.UserControllerTest do
       assert response =~ "#{user.name}</title>"
     end
   end
+
+  describe "settings page" do
+    setup :create_user
+    setup %{conn: conn, user: user}, do: [path: user_path(conn, :edit, user)]
+    setup :visit
+
+    test "should have contnt", %{response: response} do
+      assert response =~ "Update your profile"
+    end
+
+    test "should have title", %{response: response} do
+      assert response =~ "Edit user</title>"
+    end
+
+    test "should have link to gravatar", %{response: response} do
+      assert response =~ "href=\"http://gravatar.com/emails\""
+    end
+  end
 end

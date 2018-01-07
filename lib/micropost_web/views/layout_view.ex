@@ -8,8 +8,8 @@ defmodule MicropostWeb.LayoutView do
   end
 
   def current_user(conn) do
-    email = Plug.Conn.get_session(conn, :remember_token)
-    email && Micropost.User.get_by(email: email)
+    remember_token = Plug.Conn.get_session(conn, :remember_token)
+    remember_token && Micropost.User.get_by(remember_token: remember_token)
   end
 
   def sign_in?(conn) do

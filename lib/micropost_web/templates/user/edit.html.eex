@@ -1,0 +1,6 @@
+<h1>Update your profile</h1>
+
+<%= render("form.html", conn: @conn, changeset: @changeset, path: user_path(@conn, :update, @user)) %>
+
+<%= gravatar_for @user %>
+<%= link("change", to: "http://gravatar.com/emails") %>

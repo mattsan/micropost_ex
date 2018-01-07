@@ -3,6 +3,8 @@ defmodule MicropostWeb.UserView do
 
   def page_title(%{private: %{phoenix_action: :new}}), do: "Sign up"
   def page_title(%{private: %{phoenix_action: :create}}), do: "Sign up"
+  def page_title(%{private: %{phoenix_action: :edit}}), do: "Edit user"
+  def page_title(%{private: %{phoenix_action: :update}}), do: "Edit user"
   def page_title(%{assigns: %{user: user}}), do: user.name
   def page_title(_), do: nil
 
@@ -12,4 +14,7 @@ defmodule MicropostWeb.UserView do
     gravatar_url = "https://secure.gravatar.com/avatar/#{gravatar_id}?s=#{size}"
     img_tag(gravatar_url)
   end
+
+  def submit_caption(%{private: %{phoenix_action: :edit}}), do: "Save change"
+  def submit_caption(_), do: "Create my account"
 end

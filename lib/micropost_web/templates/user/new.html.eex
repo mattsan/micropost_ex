@@ -1,29 +1,3 @@
 <h1>Sign up</h1>
 
-<%= form_for @changeset, user_path(@conn, :create), fn f -> %>
-  <div class="form-group">
-    <%= label f, :name %>
-    <%= text_input f, :name, class: "form-control" %>
-    <%= error_tag f, :name %>
-  </div>
-
-  <div class="form-group">
-    <%= label f, :email %>
-    <%= text_input f, :email, class: "form-control" %>
-    <%= error_tag f, :email %>
-  </div>
-
-  <div class="form-group">
-    <%= label f, :password %>
-    <%= password_input f, :password, class: "form-control" %>
-    <%= error_tag f, :password %>
-  </div>
-
-  <div class="form-group">
-    <%= label f, :password_confirmation %>
-    <%= password_input f, :password_confirmation, class: "form-control" %>
-    <%= error_tag f, :password_confirmation %>
-  </div>
-
-  <%= submit "Create my account", class: "btn btn-primary" %>
-<% end %>
+<%= render("form.html", conn: @conn, changeset: @changeset, path: user_path(@conn, :create)) %>

@@ -13,7 +13,7 @@ defmodule MicropostWeb.SessionController do
 
     if user && User.authenticated?(user, user_params["password"]) do
       conn
-      |> put_session(:remember_token, user.email)
+      |> put_session(:remember_token, user.remember_token)
       |> put_flash(:success, "Welcome back!")
       |> redirect(to: user_path(conn, :show, user), user: user)
     else
