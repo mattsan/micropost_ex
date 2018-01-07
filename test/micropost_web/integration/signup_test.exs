@@ -16,7 +16,7 @@ defmodule MicropostWeb.SignupTest do
     :ok
   end
 
-  defp fill_signup_field(_context) do
+  defp fill_signup_fields(_context) do
     fill_field({:name, "user[name]"}, @name)
     fill_field({:name, "user[email]"}, @email)
     fill_field({:name, "user[password]"}, @password)
@@ -51,7 +51,7 @@ defmodule MicropostWeb.SignupTest do
   end
 
   describe "signup with valid infomation" do
-    setup [:visit_signup, :fill_signup_field, :count_user, :submit, :count_user]
+    setup [:visit_signup, :fill_signup_fields, :count_user, :submit, :count_user]
 
     test "should not create a user", %{user_counts: [after_count, before_count]} do
       assert (after_count - before_count) == 1
