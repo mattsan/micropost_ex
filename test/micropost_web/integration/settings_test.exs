@@ -38,14 +38,13 @@ defmodule MicropostWeb.SettingsTest do
     setup [:create_user, :signin, :visit_settings, :submit]
 
     test "should have error message" do
-      assert inner_text(find_element(:class, "alert-error")) =~ "error"
+      assert inner_text(find_element(:class, "alert-danger")) =~ "error"
     end
   end
 
   describe "with valid information" do
-    setup [:create_user, :signin, :visit_settings]
     setup do: [user_params: %{name: "New Name", email: "new@example.com", password: "barfoo"}]
-    setup [:fill_settings_fields, :submit]
+    setup [:create_user, :signin, :visit_settings, :fill_settings_fields, :submit]
 
     test "should be updated profile" do
       assert page_title() =~ "New Name"

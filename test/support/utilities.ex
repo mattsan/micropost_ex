@@ -17,8 +17,8 @@ defmodule MicropostWeb.Utilities do
     password = get_password(context)
 
     attributes = %{
-      name: Faker.Name.name(),
-      email: Faker.Internet.email(),
+      name: String.replace(Faker.Name.name(), "'", ""),
+      email: String.replace(Faker.Internet.email(), "'", ""),
       password: password,
       password_confirmation: password
     }

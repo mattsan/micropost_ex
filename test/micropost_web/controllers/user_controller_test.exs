@@ -45,6 +45,32 @@ defmodule MicropostWeb.UserControllerTest do
       assert path == user_path(conn, :show, myself)
     end
 
+    test "update with valid information", %{conn: conn, user: user} do
+      user_params = %{
+        name: "New Name",
+        email: "new@example.com",
+        password: "foobar",
+        password_confirmation: "foobar"
+      }
+
+      patched_conn = patch(conn, user_path(conn, :update, user), user: user_params)
+      assert redirected_to(patched_conn) == user_path(conn, :show, user)
+      assert get_flash(patched_conn)["success"] =~ "updated"
+    end
+
+    test "update with invalid information", %{conn: conn, user: user} do
+      user_params = %{
+        name: user.name,
+        email: user.email,
+        password: "foobar",
+        password_confirmation: "barfoo"
+      }
+
+      patched_conn = patch(conn, user_path(conn, :update, user), user: user_params)
+      assert redirected_to(patched_conn) == user_path(conn, :edit, user)
+      assert get_flash(patched_conn)["error"] =~ "error"
+    end
+
     test "update another users's settings", %{conn: conn, users: [myself, another]} do
       user_params = %{
         name: myself.name,

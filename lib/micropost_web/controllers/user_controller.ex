@@ -37,7 +37,6 @@ defmodule MicropostWeb.UserController do
   def update(conn, %{"id" => id, "user" => user_params}) do
     user = User.get!(id)
     changeset = User.changeset(user, user_params)
-
     case User.update(changeset) do
       {:ok, user} ->
         conn
@@ -46,7 +45,7 @@ defmodule MicropostWeb.UserController do
       {:error, %Ecto.Changeset{} = changeset} ->
         conn
         |> put_flash(:error, error_message(changeset))
-        |> render("edit.html", user: user, changeset: changeset)
+        |> redirect(to: user_path(conn, :edit, user), changeset: changeset)
     end  end
 
   defp error_message(%{errors: errors} = _changeset) do
