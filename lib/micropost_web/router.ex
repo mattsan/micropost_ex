@@ -9,10 +9,6 @@ defmodule MicropostWeb.Router do
     plug :put_secure_browser_headers
   end
 
-  pipeline :authentication do
-    plug :assign_current_user
-  end
-
   pipeline :api do
     plug :accepts, ["json"]
   end
@@ -29,13 +25,19 @@ defmodule MicropostWeb.Router do
     get "/signin", SessionController, :new
     resources "/sessions", SessionController, only: [:create]
     resources "/users", UserController, only: [:create]
-  end
 
-  scope "/", MicropostWeb do
-    pipe_through [:browser, :authentication]
+    scope "/" do
+      pipe_through :assign_current_user
 
-    delete "/signout", SessionController, :delete
-    resources "/users", UserController, except: [:new, :create]
+      delete "/signout", SessionController, :delete
+      resources "/users", UserController, only: [:index, :show]
+
+      scope "/" do
+        pipe_through :signed_in_user
+
+        resources "/users", UserController, only: [:edit, :update]
+      end
+      end
   end
 
   # Other scopes may use custom stacks.
@@ -51,6 +53,15 @@ defmodule MicropostWeb.Router do
       assign(conn, :current_user, current_user)
     else
       redirect(conn, to: MicropostWeb.Router.Helpers.session_path(conn, :new))
+      |> halt()
+    end
+  end
+
+  defp signed_in_user(conn, _) do
+    if String.to_integer(conn.params["id"]) == conn.assigns.current_user.id do
+      conn
+    else
+      redirect(conn, to: MicropostWeb.Router.Helpers.user_path(conn, :show, conn.assigns.current_user))
       |> halt()
     end
   end
