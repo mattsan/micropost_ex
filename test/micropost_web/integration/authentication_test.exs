@@ -2,21 +2,7 @@ defmodule MicropostWeb.AuthenticationTest do
   use MicropostWeb.ConnCase
   use Hound.Helpers
 
-  alias Micropost.User
-
-  @name "Example User"
-  @email "user@example.com"
-  @password "foobar"
-  @user_params %{name: @name, email: @email, password: @password, password_confirmation: @password}
-  @gravatar_url "http://gravatar.com/emails"
-
   hound_session()
-
-  defp create_user(_context) do
-    {:ok, user} = User.insert(User.changeset(%User{}, @user_params))
-
-    [user: user]
-  end
 
   defp visit_signin(%{conn: conn}) do
     navigate_to(session_path(conn, :new))
@@ -24,9 +10,9 @@ defmodule MicropostWeb.AuthenticationTest do
     :ok
   end
 
-  defp fill_information(_context) do
-    fill_field({:name, "user[email]"}, @email)
-    fill_field({:name, "user[password]"}, @password)
+  defp fill_information(%{user: user}) do
+    fill_field({:name, "user[email]"}, user.email)
+    fill_field({:name, "user[password]"}, "foobar")
 
     :ok
   end
@@ -36,18 +22,6 @@ defmodule MicropostWeb.AuthenticationTest do
     |> click()
 
     :ok
-  end
-
-  describe "visit signup_path" do
-    setup :visit_signin
-
-    test "should have title 'Sign in'" do
-      assert page_title() =~ "Sign in"
-    end
-
-    test "should have 'Sign in' in body" do
-      assert inner_text(find_element(:tag, "body")) =~ "Sign in"
-    end
   end
 
   describe "signin with invalid information" do
@@ -80,21 +54,6 @@ defmodule MicropostWeb.AuthenticationTest do
       |> click
 
       assert attribute_value(find_element(:link_text, "Sign in"), "href") == session_url(MicropostWeb.Endpoint, :new)
-    end
-
-    test "show profile page", %{conn: conn, user: user} do
-      navigate_to(user_path(conn, :show, user))
-
-      assert page_title() =~ user.name
-      assert inner_text(find_element(:tag, "body")) =~ user.name
-    end
-
-    test "should have content", %{conn: conn, user: user} do
-      navigate_to(user_path(conn, :edit, user))
-
-      assert page_title() =~ "Edit user"
-      assert inner_text(find_element(:tag, "body")) =~ "Update your profile"
-      assert attribute_value(find_element(:link_text, "change"), "href") == @gravatar_url
     end
   end
 end

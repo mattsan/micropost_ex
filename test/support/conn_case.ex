@@ -20,17 +20,10 @@ defmodule MicropostWeb.ConnCase do
       # Import conveniences for testing with connections
       use Phoenix.ConnTest
       import MicropostWeb.Router.Helpers
+      import MicropostWeb.Utilities
 
       # The default endpoint for testing
       @endpoint MicropostWeb.Endpoint
-
-      def visit(%{conn: conn, path: path} = context) do
-        status_code = Map.get(context, :status, 200)
-        response = conn
-          |> get(path)
-          |> html_response(status_code)
-        [response: response]
-      end
     end
   end
 

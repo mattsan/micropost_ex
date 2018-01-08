@@ -42,7 +42,8 @@ defmodule Micropost.Mixfile do
       {:gettext, "~> 0.11"},
       {:cowboy, "~> 1.0"},
       {:bcrypt_elixir, "~> 1.0"},
-      {:hound, "~> 1.0", only: :test}
+      {:hound, "~> 1.0", only: :test},
+      {:faker, "~> 0.9.0", only: [:dev, :test]}
     ]
   end
 
