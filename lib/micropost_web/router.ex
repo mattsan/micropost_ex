@@ -50,9 +50,12 @@ defmodule MicropostWeb.Router do
     current_user = remember_token && Micropost.User.get_by(remember_token: remember_token)
 
     if current_user do
-      assign(conn, :current_user, current_user)
+      conn
+      |> assign(:current_user, current_user)
     else
-      redirect(conn, to: MicropostWeb.Router.Helpers.session_path(conn, :new))
+      conn
+      |> put_session(:return_path, conn.request_path)
+      |> redirect(to: MicropostWeb.Router.Helpers.session_path(conn, :new))
       |> halt()
     end
   end

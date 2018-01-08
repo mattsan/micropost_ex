@@ -12,10 +12,13 @@ defmodule MicropostWeb.SessionController do
     user = User.get_by(email: user_params["email"])
 
     if user && User.authenticated?(user, user_params["password"]) do
+      path = get_session(conn, :return_path) || user_path(conn, :show, user)
+
       conn
+      |> delete_session(:return_path)
       |> put_session(:remember_token, user.remember_token)
       |> put_flash(:success, "Welcome back!")
-      |> redirect(to: user_path(conn, :show, user), user: user)
+      |> redirect(to: path)
     else
       changeset = User.changeset(%User{}, user_params)
       conn
