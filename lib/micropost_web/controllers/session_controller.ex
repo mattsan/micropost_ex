@@ -20,7 +20,7 @@ defmodule MicropostWeb.SessionController do
       changeset = User.changeset(%User{}, user_params)
       conn
       |> put_flash(:error, "Invalid email/password combination")
-      |> render("new.html", changeset: changeset)
+      |> redirect(to: session_path(conn, :new), changeset: changeset)
     end
   end
 
