@@ -24,10 +24,11 @@ defmodule MicropostWeb.ConnCase do
       # The default endpoint for testing
       @endpoint MicropostWeb.Endpoint
 
-      def visit(%{conn: conn, path: path}) do
+      def visit(%{conn: conn, path: path} = context) do
+        status_code = Map.get(context, :status, 200)
         response = conn
           |> get(path)
-          |> html_response(200)
+          |> html_response(status_code)
         [response: response]
       end
     end

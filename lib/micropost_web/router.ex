@@ -9,6 +9,10 @@ defmodule MicropostWeb.Router do
     plug :put_secure_browser_headers
   end
 
+  pipeline :authentication do
+    plug :assign_current_user
+  end
+
   pipeline :api do
     plug :accepts, ["json"]
   end
@@ -17,19 +21,37 @@ defmodule MicropostWeb.Router do
     pipe_through :browser # Use the default browser stack
 
     get "/", StaticPageController, :home
-    get "/signup", UserController, :new
-    get "/signin", SessionController, :new
-    delete "/signout", SessionController, :delete
     get "/help", StaticPageController, :help
     get "/about", StaticPageController, :about
     get "/contact", StaticPageController, :contact
 
-    resources "/users", UserController, except: [:new]
+    get "/signup", UserController, :new
+    get "/signin", SessionController, :new
     resources "/sessions", SessionController, only: [:create]
+    resources "/users", UserController, only: [:create]
+  end
+
+  scope "/", MicropostWeb do
+    pipe_through [:browser, :authentication]
+
+    delete "/signout", SessionController, :delete
+    resources "/users", UserController, except: [:new, :create]
   end
 
   # Other scopes may use custom stacks.
   # scope "/api", MicropostWeb do
   #   pipe_through :api
   # end
+
+  defp assign_current_user(conn, _) do
+    remember_token = get_session(conn, :remember_token)
+    current_user = remember_token && Micropost.User.get_by(remember_token: remember_token)
+
+    if current_user do
+      assign(conn, :current_user, current_user)
+    else
+      redirect(conn, to: MicropostWeb.Router.Helpers.session_path(conn, :new))
+      |> halt()
+    end
+  end
 end

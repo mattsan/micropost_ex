@@ -8,6 +8,7 @@ defmodule MicropostWeb.AuthenticationTest do
   @email "user@example.com"
   @password "foobar"
   @user_params %{name: @name, email: @email, password: @password, password_confirmation: @password}
+  @gravatar_url "http://gravatar.com/emails"
 
   hound_session()
 
@@ -52,19 +53,10 @@ defmodule MicropostWeb.AuthenticationTest do
   describe "signin with invalid information" do
     setup [:visit_signin, :submit]
 
-    test "should have title 'Sign in'" do
+    test "should fail sign in and show sign in page" do
       assert page_title() =~ "Sign in"
-    end
-
-    test "should have text 'invalid'" do
       assert inner_text(find_element(:class, "alert-danger")) =~ "Invalid"
-    end
-
-    test "should have link 'Sign in'" do
       assert attribute_value(find_element(:link_text, "Sign in"), "href") == session_url(MicropostWeb.Endpoint, :new)
-    end
-
-    test "should not have link to profile page" do
       assert find_all_elements(:link_text, "Profile") == []
       assert find_all_elements(:link_text, "Settings") == []
       assert find_all_elements(:link_text, "Sign out") == []
@@ -74,21 +66,12 @@ defmodule MicropostWeb.AuthenticationTest do
   describe "signin with valid information" do
     setup [:create_user, :visit_signin, :fill_information, :submit]
 
-    test "should have user name in title", %{user: user} do
+    test "should have signed in ", %{user: user} do
       assert page_title() =~ user.name
-    end
-
-    test "should have flash message" do
       assert inner_text(find_element(:class, "alert-success")) =~ "Welcome back!"
-    end
-
-    test "should have link to profile page", %{user: user} do
       assert attribute_value(find_element(:link_text, "Profile"), "href") == user_url(MicropostWeb.Endpoint, :show, user)
       assert attribute_value(find_element(:link_text, "Settings"), "href") == user_url(MicropostWeb.Endpoint, :edit, user)
       assert attribute_value(find_element(:link_text, "Sign out"), "data-to") == session_path(MicropostWeb.Endpoint, :delete)
-    end
-
-    test "should not have link 'Sign in" do
       assert find_all_elements(:link_text, "Sign in") == []
     end
 
@@ -97,6 +80,21 @@ defmodule MicropostWeb.AuthenticationTest do
       |> click
 
       assert attribute_value(find_element(:link_text, "Sign in"), "href") == session_url(MicropostWeb.Endpoint, :new)
+    end
+
+    test "show profile page", %{conn: conn, user: user} do
+      navigate_to(user_path(conn, :show, user))
+
+      assert page_title() =~ user.name
+      assert inner_text(find_element(:tag, "body")) =~ user.name
+    end
+
+    test "should have content", %{conn: conn, user: user} do
+      navigate_to(user_path(conn, :edit, user))
+
+      assert page_title() =~ "Edit user"
+      assert inner_text(find_element(:tag, "body")) =~ "Update your profile"
+      assert attribute_value(find_element(:link_text, "change"), "href") == @gravatar_url
     end
   end
 end
