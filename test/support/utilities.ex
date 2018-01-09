@@ -13,19 +13,13 @@ defmodule MicropostWeb.Utilities do
     [response: response]
   end
 
+  def new_user(context) do
+    user = new_changeset(context) |> Ecto.Changeset.apply_changes()
+    [user: user]
+  end
+
   def create_user(context) do
-    password = get_password(context)
-
-    attributes = %{
-      name: String.replace(Faker.Name.name(), "'", ""),
-      email: String.replace(Faker.Internet.email(), "'", ""),
-      password: password,
-      password_confirmation: password
-    }
-
-    {:ok, user} = %Micropost.User{}
-      |> Micropost.User.changeset(attributes)
-      |> Micropost.User.insert()
+    {:ok, user} = new_changeset(context) |> Micropost.User.insert()
 
     users = Map.get(context, :users, [])
 
@@ -37,7 +31,26 @@ defmodule MicropostWeb.Utilities do
     [conn: posted_conn]
   end
 
+  def default_password, do: @default_password
+
   defp get_password(context) do
     Map.get(context, :password, @default_password)
+  end
+
+  defp new_changeset(context) do
+    user_params = Map.get(context, :user_params, %{})
+
+    name = Map.get(user_params, :name, String.replace(Faker.Name.name(), "'", ""))
+    email = Map.get(user_params, :email, String.replace(Faker.Internet.email(), "'", ""))
+    password = get_password(user_params)
+
+    attributes = %{
+      name: name,
+      email: email,
+      password: password,
+      password_confirmation: password
+    }
+
+    %Micropost.User{} |> Micropost.User.changeset(attributes)
   end
 end
