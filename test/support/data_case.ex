@@ -22,6 +22,7 @@ defmodule Micropost.DataCase do
       import Ecto.Changeset
       import Ecto.Query
       import Micropost.DataCase
+      import Micropost.Utilities
     end
   end
 

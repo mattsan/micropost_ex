@@ -21,6 +21,7 @@ defmodule MicropostWeb.ConnCase do
       use Phoenix.ConnTest
       import MicropostWeb.Router.Helpers
       import MicropostWeb.Utilities
+      import Micropost.Utilities
 
       # The default endpoint for testing
       @endpoint MicropostWeb.Endpoint

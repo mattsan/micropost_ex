@@ -1,87 +1,86 @@
 defmodule Micropost.UserTest do
   use Micropost.DataCase
 
-  alias Micropost.{Repo, User}
+  alias Micropost.User
 
-  @name "Example User"
-  @email "user@example.com"
-  @password "foobar"
-  @user_params %{name: @name, email: @email, password: @password, password_confirmation: @password}
-
-  defp new_user(_context) do
-    user = %User{} |> User.changeset(@user_params) |> Ecto.Changeset.apply_changes()
-    [user: user]
-  end
-
-  defp create_user(_context) do
-    user = Repo.insert!(User.changeset(%User{}, @user_params))
-    [user: user]
+  defp new_changeset(%{user: user, params: params}) do
+    [changeset: User.changeset(user, params)]
   end
 
   describe "validation" do
-    setup :new_user
+    setup [:new_user, :new_changeset]
 
-    test "when name and email is present", %{user: user} do
-      changeset = User.changeset(user, %{})
+    @tag params: %{name: "foo", email: "foo@example.com"}
+    test "when name and email is present", %{changeset: changeset} do
       assert changeset.valid?
     end
 
-    test "when name is not present", %{user: user} do
-      changeset = User.changeset(user, %{name: " "})
+    @tag params: %{name: " "}
+    test "when name is not present", %{changeset: changeset} do
       refute changeset.valid?
     end
 
-    test "when email is not present", %{user: user} do
-      changeset = User.changeset(user, %{email: " "})
+    @tag params: %{name: String.duplicate("a", 51)}
+    test "when name is too long", %{changeset: changeset} do
       refute changeset.valid?
     end
 
-    test "when naem is too long", %{user: user} do
-      changeset = User.changeset(user, %{name: String.duplicate("a", 51)})
+    @tag params: %{password: " "}
+    test "when password is not present", %{changeset: changeset} do
       refute changeset.valid?
     end
 
-    test "when email format is invalid", %{user: user} do
-      ~w(user@foo,com user_at_foo.org example.user@foo.foo@bar_baz.com foo@bar+baz.com)
-      |> Enum.each(fn invalid_address ->
-        changeset = User.changeset(user, %{email: invalid_address})
+    @tag params: %{password: String.duplicate("a", 5), password_confirmation: String.duplicate("a", 5)}
+    test "when password is too short", %{changeset: changeset} do
+      refute changeset.valid?
+    end
+
+    @tag params: %{password_confirmation: " "}
+    test "when password confirmation is not present", %{changeset: changeset} do
+      refute changeset.valid?
+    end
+
+    @tag params: %{password: "foobar", password_confirmation: "FOOBAR"}
+    test "when password is not confirmed", %{changeset: changeset} do
+      refute changeset.valid?
+    end
+
+    @tag params: %{email: " "}
+    test "when email is not present", %{changeset: changeset} do
+      refute changeset.valid?
+    end
+
+    ~w(user@foo,com user_at_foo.org example.user@foo.foo@bar_baz.com foo@bar+baz.com)
+    |> Enum.each(fn invalid_address ->
+      @tag params: %{email: invalid_address}
+      test "when email is '#{invalid_address}'", %{changeset: changeset} do
         refute changeset.valid?
-      end)
-    end
+      end
+    end)
 
-    test "when email format is valid", %{user: user} do
-      ~w(user@foo.COM A_US-ER@f.b.org frst.lst@foo.jp a+b@baz.cn)
-      |> Enum.each(fn valid_address ->
-        changeset = User.changeset(user, %{email: valid_address})
+    ~w(user@foo.COM A_US-ER@f.b.org frst.lst@foo.jp a+b@baz.cn)
+    |> Enum.each(fn valid_address ->
+      @tag params: %{email: valid_address}
+      test "when email is #{valid_address}", %{changeset: changeset} do
         assert changeset.valid?
-      end)
-    end
+      end
+    end)
   end
 
   describe "validation / a user already exists" do
     setup :create_user
-
-    test "when email address is already taken" do
-      changeset = User.changeset(%User{}, %{@user_params|name: "Example User Jr."})
-      refute changeset.valid?
+    setup %{user: user} do
+      params = %{
+        name: "#{user.name} Jr.",
+        email: user.email,
+        password: default_password(),
+        password_confirmation: default_password()
+      }
+      [params: params]
     end
-  end
+    setup [:new_user, :new_changeset]
 
-  describe "password" do
-    setup :new_user
-
-    test "when password is not present", %{user: user} do
-      changeset = User.changeset(user, %{password: " "})
-      refute changeset.valid?
-    end
-
-    test "when password is too short", %{user: user} do
-      changeset = User.changeset(user, %{password: String.duplicate("a", 5)})
-      refute changeset.valid?
-    end
-
-    test "when password confirmation is not present", %{user: user} do
-      changeset = User.changeset(user, %{password_confirmation: " "})
+    test "when email address is already taken", %{changeset: changeset} do
       refute changeset.valid?
     end
   end
@@ -90,7 +89,7 @@ defmodule Micropost.UserTest do
     setup :create_user
 
     test "when valid passowrd", %{user: user} do
-      assert User.authenticated?(user, @password)
+      assert User.authenticated?(user, default_password())
     end
 
     test "when invalid passowrd", %{user: user} do
