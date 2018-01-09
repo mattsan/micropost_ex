@@ -2,7 +2,7 @@ defmodule MicropostWeb.SessionControllerTest do
   use MicropostWeb.ConnCase
 
   describe "visit sign in page" do
-    setup %{conn: conn}, do: [path: session_path(conn, :new)]
+    @describetag path: session_path(build_conn(), :new)
     setup :visit
 
     test "should have title 'Sign in'", %{response: response} do
@@ -23,10 +23,9 @@ defmodule MicropostWeb.SessionControllerTest do
   end
 
   describe "sign in invalid" do
-    setup :create_user
-    setup do: [password: "barfoo"]
-    setup :sign_in
+    setup [:create_user, :sign_in]
 
+    @tag password: "barfoo"
     test "with invalid information", %{conn: conn} do
       assert redirected_to(conn) == session_path(conn, :new)
       assert get_flash(conn)["error"] =~ "Invalid"

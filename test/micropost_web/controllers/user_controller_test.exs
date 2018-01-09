@@ -4,7 +4,7 @@ defmodule MicropostWeb.UserControllerTest do
   @gravatar_url "http://gravatar.com/emails"
 
   describe "visit sign up page" do
-    setup %{conn: conn}, do: [path: user_path(conn, :new)]
+    @describetag path: user_path(build_conn(), :new)
     setup :visit
 
     test "should have content 'Sign up'", %{response: response} do

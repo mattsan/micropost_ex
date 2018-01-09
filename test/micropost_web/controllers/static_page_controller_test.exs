@@ -9,7 +9,7 @@ defmodule MicropostWeb.StaticPageControllerTest do
   defp full_title(page_title), do: "#{@base_title} | #{page_title}"
 
   describe "root page" do
-    setup %{conn: conn}, do: [path: static_page_path(conn, :home)]
+    @describetag path: static_page_path(build_conn(), :home)
     setup :visit
 
     test "should have the content 'Sample App'", %{response: response} do
@@ -22,7 +22,7 @@ defmodule MicropostWeb.StaticPageControllerTest do
   end
 
   describe "help page" do
-    setup %{conn: conn}, do: [path: static_page_path(conn, :help)]
+    @describetag path: static_page_path(build_conn(), :help)
     setup :visit
 
     test "should have the contnt 'Help'", %{response: response} do
@@ -35,7 +35,7 @@ defmodule MicropostWeb.StaticPageControllerTest do
   end
 
   describe "about page" do
-    setup %{conn: conn}, do: [path: static_page_path(conn, :about)]
+    @describetag path: static_page_path(build_conn(), :about)
     setup :visit
 
     test "should have the contnt 'About Us'", %{response: response} do
@@ -48,7 +48,7 @@ defmodule MicropostWeb.StaticPageControllerTest do
   end
 
   describe "contact page" do
-    setup %{conn: conn}, do: [path: static_page_path(conn, :contact)]
+    @describetag path: static_page_path(build_conn(), :contact)
     setup :visit
 
     test "should have the content 'Contact'", %{response: response} do
