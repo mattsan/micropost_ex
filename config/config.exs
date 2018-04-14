@@ -6,22 +6,25 @@
 use Mix.Config
 
 # General application configuration
-config :micropost,
-  ecto_repos: [Micropost.Repo]
+config :sample_app,
+  ecto_repos: [SampleApp.Repo]
 
 # Configures the endpoint
-config :micropost, MicropostWeb.Endpoint,
+config :sample_app, SampleAppWeb.Endpoint,
   url: [host: "localhost"],
-  secret_key_base: "WUSGiRINqkk7cEp1YkULjmGFT+6vCnRWC68X5aZgamyMGm3+tL0qz62WCzGcxRl6",
-  render_errors: [view: MicropostWeb.ErrorView, accepts: ~w(html json)],
-  pubsub: [name: Micropost.PubSub,
+  secret_key_base: "5prSJTfdPDzuL/0Ii8PCypSkSSvSp95TBm5w+0A704SnYc/CKsZGGEw6q3AcSWvZ",
+  render_errors: [view: SampleAppWeb.ErrorView, accepts: ~w(html json)],
+  pubsub: [name: SampleApp.PubSub,
            adapter: Phoenix.PubSub.PG2]
 
 # Configures Elixir's Logger
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",
-  metadata: [:request_id]
+  metadata: [:user_id]
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env}.exs"
+
+config :scrivener_html,
+  routes_helper: SampleAppWeb.Router.Helpers

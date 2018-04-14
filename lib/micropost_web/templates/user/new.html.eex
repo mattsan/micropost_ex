@@ -1,3 +1,0 @@
-<h1>Sign up</h1>
-
-<%= render("form.html", conn: @conn, changeset: @changeset, path: user_path(@conn, :create)) %>

@@ -1,4 +1,4 @@
-# Micropost
+# SampleApp
 
 To start your Phoenix server:
 

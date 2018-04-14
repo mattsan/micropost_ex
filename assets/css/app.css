@@ -1,9 +1,5 @@
 /* This file is for your main application css. */
 
-html {
-  overflow-y: scroll;
-}
-
 body {
   padding-top: 60px;
 }
@@ -41,7 +37,7 @@ h2 {
   margin-bottom: 30px;
   text-align: center;
   font-weight: normal;
-  color: #999;
+  color: #777;
 }
 
 p {
@@ -58,11 +54,10 @@ p {
   letter-spacing: -1px;
   padding-top: 9px;
   font-weight: bold;
-  line-height: 1;
 }
 
 #logo:hover {
-  color: #fff;
+  color: #777;
   text-decoration: none;
 }
 
@@ -70,7 +65,6 @@ footer {
   margin-top: 45px;
   padding-top: 5px;
   border-top: 1px solid #eaeaea;
-  color: #999;
 }
 
 footer a {
@@ -78,35 +72,45 @@ footer a {
 }
 
 footer a:hover {
-  color: #222;
+  color: #555;
 }
 
 footer small {
   float: left;
 }
 
-footer nav {
+footer ul {
   float: right;
+  list-style: none;
 }
 
-aside section {
+footer ul li {
+  float: left;
+  margin-left: 15px;
+}
+
+aside section.user_info {
+  margin-top: 20px;
+}
+
+aslide section {
   padding: 10px 0;
-  border-top: 1px solid #ccc;
+  margin-top: 20px;
 }
 
 aside section:first-child {
-  bolder: 0;
+  border: 0;
   padding-top: 0;
 }
 
 aside section span {
-  display: block;
-  margin-bottom: 3px;
+  display: black;
+  margin-bottom 3px;
   line-height: 1;
 }
 
 aside section h1 {
-  font-size: 1.4em;
+  font-size: 1.4.em;
   text-align: left;
   letter-spacing: -1px;
   margin-bottom: 3px;
@@ -116,4 +120,84 @@ aside section h1 {
 .gravatar {
   float: left;
   margin-right: 10px;
+}
+
+.gravatar_edit {
+  margin-right: 15px;
+}
+
+.checkbox {
+  margin-top: -10px;
+  margin-bottom: 10px;
+}
+
+.checkbox span {
+  margin-left: 20px;
+  font-weight: normal;
+}
+
+#session_remember_me {
+  width: auto;
+  margin-left: 0;
+}
+
+.users {
+  list-style: none;
+  margin: 0;
+}
+
+.users li {
+  overflow: auto;
+  padding: 10px 0;
+  border-bottom: 1px solid #ccc;
+}
+
+.microposts {
+  list-style: none;
+  padding: 0;
+}
+
+.microposts li {
+  padding: 10px 0;
+  border-top: 1px solid #e8e8e8;
+}
+
+.microposts .user {
+  margin-top: 5em;
+  padding-top: 0;
+}
+
+.microposts .content {
+  display: block;
+  margin-left: 60px;
+}
+
+.microposts .content img {
+  display: block;
+  padding: 5px 0;
+}
+
+.microposts .timestamp {
+  color: #ccc;
+  display: block;
+  margin-left: 60px;
+}
+
+.microposts .gravatar {
+  float: left;
+  margin-right: 10px;
+  margin-top: 5px;
+}
+
+aside textarea {
+  height: 100px;
+  margin-bottom: 5px;
+}
+
+span.picture {
+  margin-top: 10px;
+}
+
+span.picture input {
+  border: 0;
 }

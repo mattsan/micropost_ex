@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title><%= page_title(@conn) %></title>
+    <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
+  </head>
+
+  <body>
+    <div class="container-fluid">
+      <%= render "header.html", conn: @conn %>
+      <%= render "flash.html", conn: @conn %>
+
+      <main role="main">
+        <%= render @view_module, @view_template, assigns %>
+      </main>
+
+      <%= render "footer.html", conn: @conn %>
+
+    </div> <!-- /container -->
+
+    <%= if Mix.env == :dev do %>
+      <div class="container-fluid">
+        <div class="panel panel-info">
+          <div class="panel-body">
+            <tt>
+              <%= inspect(@conn, limit: :infinity) %>
+            </tt>
+          </div>
+        </div>
+      </div>
+    <% end %>
+
+    <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
+  </body>
+</html>

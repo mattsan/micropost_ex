@@ -1,9 +1,9 @@
-defmodule Micropost.Mixfile do
+defmodule SampleApp.Mixfile do
   use Mix.Project
 
   def project do
     [
-      app: :micropost,
+      app: :sample_app,
       version: "0.0.1",
       elixir: "~> 1.4",
       elixirc_paths: elixirc_paths(Mix.env),
@@ -19,7 +19,7 @@ defmodule Micropost.Mixfile do
   # Type `mix help compile.app` for more information.
   def application do
     [
-      mod: {Micropost.Application, []},
+      mod: {SampleApp.Application, []},
       extra_applications: [:logger, :runtime_tools]
     ]
   end
@@ -33,7 +33,7 @@ defmodule Micropost.Mixfile do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
-      {:phoenix, "~> 1.3.0"},
+      {:phoenix, "~> 1.3.2"},
       {:phoenix_pubsub, "~> 1.0"},
       {:phoenix_ecto, "~> 3.2"},
       {:postgrex, ">= 0.0.0"},
@@ -41,9 +41,11 @@ defmodule Micropost.Mixfile do
       {:phoenix_live_reload, "~> 1.0", only: :dev},
       {:gettext, "~> 0.11"},
       {:cowboy, "~> 1.0"},
-      {:bcrypt_elixir, "~> 1.0"},
       {:hound, "~> 1.0", only: :test},
-      {:faker, "~> 0.9.0", only: [:dev, :test]}
+      {:bcrypt_elixir, "~> 1.0"},
+      {:scrivener_ecto, "~> 1.3"},
+      {:scrivener_html, "~> 1.7"},
+      {:faker, "~> 0.10"}
     ]
   end
 

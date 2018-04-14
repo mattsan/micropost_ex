@@ -1,4 +1,4 @@
-defmodule Micropost.DataCase do
+defmodule SampleApp.DataCase do
   @moduledoc """
   This module defines the setup for tests requiring
   access to the application's data layer.
@@ -16,21 +16,20 @@ defmodule Micropost.DataCase do
 
   using do
     quote do
-      alias Micropost.Repo
+      alias SampleApp.Repo
 
       import Ecto
       import Ecto.Changeset
       import Ecto.Query
-      import Micropost.DataCase
-      import Micropost.Utilities
+      import SampleApp.DataCase
     end
   end
 
   setup tags do
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Micropost.Repo)
+    :ok = Ecto.Adapters.SQL.Sandbox.checkout(SampleApp.Repo)
 
     unless tags[:async] do
-      Ecto.Adapters.SQL.Sandbox.mode(Micropost.Repo, {:shared, self()})
+      Ecto.Adapters.SQL.Sandbox.mode(SampleApp.Repo, {:shared, self()})
     end
 
     :ok

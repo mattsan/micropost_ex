@@ -1,4 +1,4 @@
-defmodule MicropostWeb.ConnCase do
+defmodule SampleAppWeb.ConnCase do
   @moduledoc """
   This module defines the test case to be used by
   tests that require setting up a connection.
@@ -19,21 +19,20 @@ defmodule MicropostWeb.ConnCase do
     quote do
       # Import conveniences for testing with connections
       use Phoenix.ConnTest
-      import MicropostWeb.Router.Helpers
-      import MicropostWeb.Utilities
-      import Micropost.Utilities
+      import SampleAppWeb.Router.Helpers
 
       # The default endpoint for testing
-      @endpoint MicropostWeb.Endpoint
+      @endpoint SampleAppWeb.Endpoint
     end
   end
 
 
   setup tags do
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Micropost.Repo)
+    :ok = Ecto.Adapters.SQL.Sandbox.checkout(SampleApp.Repo)
     unless tags[:async] do
-      Ecto.Adapters.SQL.Sandbox.mode(Micropost.Repo, {:shared, self()})
+      Ecto.Adapters.SQL.Sandbox.mode(SampleApp.Repo, {:shared, self()})
     end
     {:ok, conn: Phoenix.ConnTest.build_conn()}
   end
+
 end

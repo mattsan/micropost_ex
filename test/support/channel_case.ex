@@ -1,4 +1,4 @@
-defmodule MicropostWeb.ChannelCase do
+defmodule SampleAppWeb.ChannelCase do
   @moduledoc """
   This module defines the test case to be used by
   channel tests.
@@ -21,15 +21,15 @@ defmodule MicropostWeb.ChannelCase do
       use Phoenix.ChannelTest
 
       # The default endpoint for testing
-      @endpoint MicropostWeb.Endpoint
+      @endpoint SampleAppWeb.Endpoint
     end
   end
 
 
   setup tags do
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Micropost.Repo)
+    :ok = Ecto.Adapters.SQL.Sandbox.checkout(SampleApp.Repo)
     unless tags[:async] do
-      Ecto.Adapters.SQL.Sandbox.mode(Micropost.Repo, {:shared, self()})
+      Ecto.Adapters.SQL.Sandbox.mode(SampleApp.Repo, {:shared, self()})
     end
     :ok
   end
